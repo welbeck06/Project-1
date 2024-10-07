@@ -1,0 +1,23 @@
+---
+title: "Project 1"
+output: pdf_document
+date: "2024-09-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data("USArrests")
+head(USArrests)
+```
+
+```{r}
+csv <- read.csv()
+data("")
+```
+```{r}
+ 
+```
+
