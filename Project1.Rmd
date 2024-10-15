@@ -8,17 +8,111 @@ date: "2024-09-30"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+1. Question Formulation:
+Identify a question you want to answer with the dataset provided. Since our data is a used cars dataset, a possible question could be: 
+"What factors most influence the price of a used car?"
+
+Exploratory Data Analysis (EDA)
 ```{r}
-data("USArrests")
-head(USArrests)
+library(tidyverse)
+
+used_cars <- read.csv("used_cars_data.csv")
+
+summary(used_cars)
+
+colSums(is.na(used_cars))
+
+# 2. Distribution of Prices
+ggplot(used_cars, aes(x = Price)) +
+  geom_histogram(bins = 30, fill = "blue", alpha = 0.7) +
+  labs(title = "Distribution of Car Prices", x = "Price", y = "Frequency")
+
+
+# Car Price vs Year
+plot(used_cars$Year, used_cars$Price, main = "Car Price vs Year", xlab = "Year", ylab = "Price(in thousand USD)")
+
 ```
 
+
+2. Data Wrangling:
+Load the data. Clean the data: handle missing values, filter irrelevant columns, and ensure the data types are correct. Subset the data if necessary. 
 ```{r}
-csv <- read.csv()
-data("")
+# Data wrangling: Remove rows with missing values
+used_cars_clean <- na.omit(used_cars)
+
+# 3. Mileage vs Price
+ggplot(used_cars, aes(x = Mileage, y = Price)) +
+  geom_point(color = "darkgreen") +
+  labs(title = "Mileage vs Price", x = "Mileage (kmpl)", y = "Price (in Lakhs)")
+
+# 4. Fuel Type vs Price
+ggplot(used_cars, aes(x = Fuel_Type, y = Price, fill = Fuel_Type)) +
+  geom_boxplot() +
+  labs(title = "Fuel Type vs Price", x = "Fuel Type", y = "Price (in Lakhs)")
+
+# 5. Kilometers Driven vs Price
+ggplot(used_cars, aes(x = Kilometers_Driven, y = Price)) +
+  geom_point(color = "purple") +
+  labs(title = "Kilometers Driven vs Price", x = "Kilometers Driven", y = "Price (in Lakhs)")
+
+# 6. Transmission Type Distribution
+ggplot(used_cars, aes(x = Transmission, fill = Transmission)) +
+  geom_bar() +
+  labs(title = "Transmission Type Distribution", x = "Transmission Type", y = "Count")
+
+# 7. Power vs Price
+ggplot(used_cars, aes(x = Power, y = Price)) +
+  geom_point(color = "red") +
+  labs(title = "Power vs Price", x = "Power (bhp)", y = "Price (in Lakhs)")
+
 ```
 ```{r}
- 
+# Data wrangling: Remove rows with missing values
+used_cars_clean <- na.omit(used_cars)
+
+ggplot(used_cars, aes(x = Fuel_Type, y = Price, fill = Fuel_Type)) +
+  geom_jitter() +
+  labs(title = "Fuel Type vs Price", x = "Fuel Type", y = "Price (in Lakhs)")
 ```
 
-test change
+
+3. Visualizations:
+Use at least two visualizations. For example, one can be a scatter plot showing price versus mileage, and another can be a boxplot showing price distribution by car brand or model.
+
+4. Analysis:
+Interpret the visualizations and run a linear regression or other statistical methods to explore relationships between variables.
+
+```{r}
+library(tidyverse)  
+library(ggplot2)    
+
+used_cars <- read.csv("used_cars_data.csv")
+
+head(used_cars)
+summary(used_cars)
+
+# Data wrangling: Remove rows with missing values
+used_cars_clean <- na.omit(used_cars)
+
+# Check data structure
+str(used_cars_clean)
+
+# If needed, filter data (example: filter by specific columns or conditions)
+# used_cars_filtered <- used_cars_clean %>% filter(Condition == "Good")
+
+# Scatter plot: Price vs Mileage
+ggplot(used_cars_clean, aes(x = Mileage, y = Price)) +
+  geom_point() +
+  labs(title = "Price vs Mileage", x = "Mileage", y = "Price")
+
+# Boxplot: Price distribution by brand
+ggplot(used_cars_clean, aes(x = Name, y = Price)) +
+  geom_boxplot() +
+  labs(title = "Price Distribution by Brand", x = "Brand", y = "Price")
+
+# Linear regression: Predicting price based on Mileage and other factors
+model <- lm(Price ~ Mileage + Name + Year, data = used_cars_clean)
+summary(model)
+
+```
+
